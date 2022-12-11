@@ -5,7 +5,6 @@ from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView, UpdateView
 from django.contrib.messages.views import SuccessMessageMixin
 
-from products.models import Basket
 from common.views import TitleMixin
 from users.models import User, EmailVerification
 from users.forms import UserLoginForm, UserRegistrationForm, UserProfileForm
@@ -34,11 +33,6 @@ class UserProfileView(TitleMixin, UpdateView):
 
     def get_success_url(self):
         return reverse_lazy('users:profile', args=(self.get_object.id,))
-
-    def get_context_data(self, **kwargs):
-        context = super(UserProfileView, self).get_context_data()
-        context['baskets'] = Basket.objects.filter(user=self.object)
-        return context
 
 
 class EmailVerificationView(TitleMixin, TemplateView):
